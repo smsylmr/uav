@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DroneMapper">
+    
+    <resultMap type="Drone" id="DroneResult">
+        <result property="id"    column="id"    />
+        <result property="model"    column="model"    />
+        <result property="modelPhoto"    column="model_photo"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="policyNo"    column="policy_no"    />
+        <result property="networkStatus"    column="network_status"    />
+        <result property="onlineStatus"    column="online_status"    />
+        <result property="deviceStatus"    column="device_status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="purchasingDate"    column="purchasing_date"    />
+    </resultMap>
+
+    <sql id="selectDroneVo">
+        select id, model, model_photo, serial_number, policy_no, network_status, online_status, device_status, del_flag, purchasing_date from drone
+    </sql>
+
+    <select id="selectDroneList" parameterType="Drone" resultMap="DroneResult">
+        <include refid="selectDroneVo"/>
+        <where>  
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="modelPhoto != null  and modelPhoto != ''"> and model_photo = #{modelPhoto}</if>
+            <if test="serialNumber != null  and serialNumber != ''"> and serial_number = #{serialNumber}</if>
+            <if test="policyNo != null  and policyNo != ''"> and policy_no = #{policyNo}</if>
+            <if test="networkStatus != null  and networkStatus != ''"> and network_status = #{networkStatus}</if>
+            <if test="onlineStatus != null  and onlineStatus != ''"> and online_status = #{onlineStatus}</if>
+            <if test="deviceStatus != null  and deviceStatus != ''"> and device_status = #{deviceStatus}</if>
+            <if test="purchasingDate != null "> and purchasing_date = #{purchasingDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectDroneById" parameterType="String" resultMap="DroneResult">
+        <include refid="selectDroneVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDrone" parameterType="Drone">
+        insert into drone
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="model != null and model != ''">model,</if>
+            <if test="modelPhoto != null">model_photo,</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number,</if>
+            <if test="policyNo != null">policy_no,</if>
+            <if test="networkStatus != null">network_status,</if>
+            <if test="onlineStatus != null">online_status,</if>
+            <if test="deviceStatus != null">device_status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="purchasingDate != null">purchasing_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="model != null and model != ''">#{model},</if>
+            <if test="modelPhoto != null">#{modelPhoto},</if>
+            <if test="serialNumber != null and serialNumber != ''">#{serialNumber},</if>
+            <if test="policyNo != null">#{policyNo},</if>
+            <if test="networkStatus != null">#{networkStatus},</if>
+            <if test="onlineStatus != null">#{onlineStatus},</if>
+            <if test="deviceStatus != null">#{deviceStatus},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="purchasingDate != null">#{purchasingDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDrone" parameterType="Drone">
+        update drone
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="model != null and model != ''">model = #{model},</if>
+            <if test="modelPhoto != null">model_photo = #{modelPhoto},</if>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="policyNo != null">policy_no = #{policyNo},</if>
+            <if test="networkStatus != null">network_status = #{networkStatus},</if>
+            <if test="onlineStatus != null">online_status = #{onlineStatus},</if>
+            <if test="deviceStatus != null">device_status = #{deviceStatus},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="purchasingDate != null">purchasing_date = #{purchasingDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDroneById" parameterType="String">
+        delete from drone where id = #{id}
+    </delete>
+
+    <delete id="deleteDroneByIds" parameterType="String">
+        delete from drone where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
