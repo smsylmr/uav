@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DroneFlightMapper">
+
+    <resultMap type="com.ruoyi.system.domain.DroneFlight" id="DroneFlightMap">
+        <result property="id" column="id" />
+        <result property="droneId" column="drone_id" />
+        <result property="flightMileage" column="flight_mileage" />
+        <result property="flightConsume" column="flight_consume" />
+        <result property="flightTime" column="flight_time" />
+        <result property="lastOnlineTime" column="last_online_time" />
+    </resultMap>
+
+    <select id="getFlightData" resultType="com.ruoyi.system.domain.vo.DroneData">
+       select COALESCE(SUM(flight_consume),0)  totalFlightTime,
+              COALESCE(SUM(flight_mileage),0) totalFlightMileage,
+              count(id) flights
+              from drone_flight where drone_id=#{droneId}
+    </select>
+
+    <select id="getFlightDataAfterLastMaintenance" resultType="com.ruoyi.system.domain.vo.DroneData">
+       select COALESCE(SUM(flight_consume),0) afterLastMaintenanceFlightTime,
+              COALESCE(SUM(flight_mileage),0) afterLastMaintenanceFlightMileage
+              from drone_flight where drone_id=#{droneId}
+              and flight_time &gt; #{flightTime}
+    </select>
+    <select id="getLastFlightByDroneId" resultType="com.ruoyi.system.domain.DroneFlight">
+       select * from drone_flight where drone_id = #{droneId} order by last_online_time desc limit 1
+    </select>
+
+</mapper>

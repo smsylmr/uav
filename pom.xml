@@ -22,7 +22,7 @@
         <bitwalker.version>1.21</bitwalker.version>
         <swagger.version>3.0.0</swagger.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <pagehelper.boot.version>1.4.3</pagehelper.boot.version>
         <fastjson.version>2.0.14</fastjson.version>
         <oshi.version>6.2.2</oshi.version>
@@ -32,11 +32,26 @@
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
+        <lombok.version>1.18.16</lombok.version>
+        <orika.version>1.5.4</orika.version>
     </properties>
 	
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- bean转换工具类 -->
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>${orika.version}</version>
+            </dependency>
 
             <!-- SpringBoot的依赖配置-->
             <dependency>
@@ -61,11 +76,11 @@
                 <version>${bitwalker.version}</version>
             </dependency>
 
-            <!-- SpringBoot集成mybatis框架 -->
+            <!-- SpringBoot集成mybatis-plus框架 -->
             <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-spring-boot.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
 
             <!-- pagehelper 分页插件 -->

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +42,7 @@ public class TestController extends BaseController
 
     @ApiOperation("获取用户列表")
     @GetMapping("/list")
+    @Anonymous
     public R<List<UserEntity>> userList()
     {
         List<UserEntity> userList = new ArrayList<UserEntity>(users.values());
