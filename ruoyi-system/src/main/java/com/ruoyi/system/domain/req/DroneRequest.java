@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class DroneRequest extends BasePageRequest {
 
+    private Long userId;
 
     /**
      * 型号

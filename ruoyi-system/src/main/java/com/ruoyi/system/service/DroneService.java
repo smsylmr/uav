@@ -17,4 +17,6 @@ public interface DroneService extends IService<Drone> {
     PageUtil<DroneVO> list(DroneRequest droneRequest);
 
     void del(String droneId);
+
+    PageUtil<DroneVO> list4Mini(DroneRequest droneRequest);
 }

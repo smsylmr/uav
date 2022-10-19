@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DroneMapper">
+
+    <resultMap type="com.ruoyi.system.domain.Drone" id="DroneMap">
+        <result property="id" column="id" />
+        <result property="model" column="model" />
+        <result property="modelPhoto" column="model_photo" />
+        <result property="serialNumber" column="serial_number" />
+        <result property="policyNo" column="policy_no" />
+        <result property="networkStatus" column="network_status" />
+        <result property="onlineStatus" column="online_status" />
+        <result property="deviceStatus" column="device_status" />
+        <result property="delFlag" column="del_flag" />
+        <result property="purchasingDate" column="purchasing_date" />
+    </resultMap>
+
+    <select id="listByUserId" resultType="com.ruoyi.system.domain.Drone">
+       SELECT CASE WHEN device_status='2' THEN 0 ELSE 1 END FLAG,* FROM Drone d
+          left join sys_user_drone ud on ud.drone_id = d.id
+          where ud.user_id = #{userId}
+          order by flag asc
+    </select>
+
+</mapper>

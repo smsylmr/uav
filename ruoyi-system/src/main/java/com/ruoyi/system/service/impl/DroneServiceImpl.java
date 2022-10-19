@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.utils.PageUtil;
@@ -54,6 +55,14 @@ public class DroneServiceImpl extends ServiceImpl<DroneMapper, Drone> implements
         Drone byId = this.getById(droneId);
         byId.setDelFlag(1);
         this.updateById(byId);
+    }
+
+    @Override
+    public PageUtil<DroneVO> list4Mini(DroneRequest droneRequest) {
+
+        IPage<Drone> byUserId = getBaseMapper().listByUserId(new Page<>(droneRequest.getCurPage(), droneRequest.getLimit()), droneRequest.getUserId());
+        List<DroneVO> droneVOList = OrikaUtils.mapAsList(byUserId.getRecords(), DroneVO.class);
+        return new PageUtil<>(droneVOList,byUserId);
     }
 
 }

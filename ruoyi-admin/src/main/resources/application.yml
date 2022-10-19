@@ -32,6 +32,12 @@ server:
       max: 800
       # Tomcat启动初始化的线程数，默认值10
       min-spare: 100
+  ssl:
+    key-store: classpath:ssl.keystore
+    key-alias: springboot-https
+    enabled: true
+    key-store-password: Hy@123456
+    key-store-type: JKS
 
 # 日志配置
 logging:
