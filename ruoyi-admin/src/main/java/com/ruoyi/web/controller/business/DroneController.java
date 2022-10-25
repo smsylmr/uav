@@ -3,15 +3,18 @@ package com.ruoyi.web.controller.business;
 
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.PageUtil;
 import com.ruoyi.common.utils.bean.OrikaUtils;
 import com.ruoyi.system.domain.Drone;
+import com.ruoyi.system.domain.SysUserDrone;
 import com.ruoyi.system.domain.req.DroneAdd;
 import com.ruoyi.system.domain.req.DroneRequest;
 import com.ruoyi.system.domain.vo.DroneData;
 import com.ruoyi.system.domain.vo.DroneVO;
 import com.ruoyi.system.service.DroneFlightService;
 import com.ruoyi.system.service.DroneService;
+import com.ruoyi.system.service.SysUserDroneService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +36,8 @@ public class DroneController {
     private DroneService droneService;
     @Resource
     private DroneFlightService droneFlightService;
+    @Resource
+    private SysUserDroneService sysUserDroneService;
 
 
     @PostMapping("/list")
@@ -57,6 +62,10 @@ public class DroneController {
     public AjaxResult add(@RequestBody DroneAdd drone){
         Drone drone1 = OrikaUtils.map(drone, Drone.class);
         droneService.save(drone1);
+        SysUserDrone sysUserDrone = new SysUserDrone();
+        sysUserDrone.setDroneId(drone1.getId());
+        sysUserDrone.setUserId(drone.getUserId());
+        sysUserDroneService.save(sysUserDrone);
         return  AjaxResult.success();
     }
 

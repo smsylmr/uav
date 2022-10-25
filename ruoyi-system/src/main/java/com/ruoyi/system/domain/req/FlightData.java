@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain.req;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,15 +19,17 @@ public class FlightData {
     //保单号
     private String policy;
     //购买时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
     //当时定位数据
     private String gps;
     //飞行序号
     private String flyNum;
     //开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
     //本次飞行持续时间单位秒
     private String flyTime;
     //飞行结束标记
-    private String isEnd;
+    private Boolean isEnd;
 }

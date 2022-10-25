@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
 @Data
 public class DroneAdd {
 
+    /**
+     * 用户id
+     */
+    private Long userId;
+
     private String id;
     /**
      * 型号

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @since 2020-12-09 16:39:46
  */
 @Data
-@TableName(value = "drone_flight")
+@TableName(value = "drone_flight_data")
 public class DroneFlightData {
     /**
     * id
