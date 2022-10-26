@@ -15,7 +15,7 @@ public class FlightData {
     //型号
     private String model;
     //序列号
-    private String SN;
+    private String sn;
     //保单号
     private String policy;
     //购买时间
@@ -30,6 +30,4 @@ public class FlightData {
     private LocalDateTime startTime;
     //本次飞行持续时间单位秒
     private String flyTime;
-    //飞行结束标记
-    private Boolean isEnd;
 }
