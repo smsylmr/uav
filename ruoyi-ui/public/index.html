@@ -6,8 +6,15 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= webpackConfig.name %></title>
+    <title>华云无人机维保系统</title>
     <!--[if lt IE 11]><script>window.location.href='/html/ie.html';</script><![endif]-->
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=KVppz3YaGzY3Mq6jBs3EaqwHKCTqn5mF">
+    </script>
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.159/dist/mapvgl.min.js"></script>
+
+<script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+<script src="http://mapv.baidu.com/build/mapv.min.js"></script>
+    <!--<script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.159/dist/mapvgl.min.js"></script>-->
 	  <style>
     html,
     body,
@@ -118,7 +125,7 @@
       top: 0;
       width: 51%;
       height: 100%;
-      background: #7171C6;
+      background: #22229f;
       z-index: 1000;
       -webkit-transform: translateX(0);
       -ms-transform: translateX(0);
@@ -201,7 +208,7 @@
 		    <div id="loader"></div>
 		    <div class="loader-section section-left"></div>
 		    <div class="loader-section section-right"></div>
-		    <div class="load_title">正在加载系统资源，请耐心等待</div>
+		    <div class="load_title">正在加载系统资源，请耐心等待...</div>
         </div>
 	</div>
   </body>

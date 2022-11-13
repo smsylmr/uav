@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysUavRepairMapper">
+
+	<sql id="selectUavRepairVo">
+		select r.uav_no,r.user_id,r.feedback_id,r.repair_address,r.phone_number,r.repair_status,r.repair_feedback,r.create_date,r.feedback_date,
+			   s1.nick_name as u_name,s2.nick_name as f_name from  t_uav_repair r
+				left join sys_user s1 on r.user_id = s1.user_id
+				left join sys_user s2 on r.feedback_id = s2.user_id
+
+	</sql>
+
+	<resultMap type="SysUavRepair" id="SysUavRepairResult">
+		<id     property="uavRepairId"       column="uav_repair_id"      /><!--无人机维保ID-->
+		<result property="repairNo"       column="repair_no"      /><!--无人机维保编号-->
+		<result property="uavNo"       column="uav_no"      /><!--无人机序列号-->
+		<result property="userId"     column="user_id"    /><!--创建人ID-->
+		<result property="uName"     column="u_name"    /><!--创建人-->
+		<result property="feedbackId"     column="feedback_id"    /><!--反馈人ID-->
+		<result property="fName"     column="f_name"    /><!--反馈人-->
+		<result property="repairAddress"     column="repair_address"    /><!--地址-->
+		<result property="phoneNumber"     column="phone_number"    /><!--电话号码-->
+		<result property="repairStatus"     column="repair_status"    /><!--维保状态-->
+		<result property="repairFeedback"     column="repair_feedback"    /><!--维保反馈-->
+		<result property="createDate"     column="create_date"    /><!--创建时间-->
+		<result property="feedbackDate"     column="feedback_date"    /><!--反馈时间-->
+	</resultMap>
+
+	<delete id="deleteUavRepairById" parameterType="Long">
+		delete from t_uav_repair where uav_id = #{uavRepairId}
+	</delete>
+
+	<update id="updateUavRepair" parameterType="SysUavRepair">
+		update t_uav
+		<set>
+			<if test="uavNo != null and uavNo != ''"> uav_no = #{uavNo},</if>
+			<if test="userId != null and userId != ''"> user_id = #{userId},</if>
+			<if test="repairAddress != null and repairAddress != ''"> repair_address = #{repairAddress},</if>
+			<if test="phoneNumber != null and phoneNumber != ''"> phone_number = #{phoneNumber},</if>
+			<if test="repairStatus != null and repairStatus != ''"> repair_status = #{repairStatus},</if>
+			<if test="repairFeedback != null and repairFeedback != ''"> repair_feedback = #{repairFeedback},</if>r
+			feedback_date = sysdate()
+		</set>
+		where uav_repair_id = #{uavRepairId}
+	</update>
+
+	<insert id="insertUavRepair" parameterType="SysUavRepair" useGeneratedKeys="false" keyProperty="id">
+		insert into t_uav_repair(
+		<if test="uavNo != null and uavNo != ''">uav_no,</if>
+		<if test="userId != null and userId != ''">user_id,</if>
+		<if test="repairAddress != null and repairAddress != ''">repair_address,</if>
+		<if test="phoneNumber != null and phoneNumber != ''">phone_number,</if>
+		<if test="repairNo != null and repairNo != ''">repair_no,</if>
+		create_date
+		)values(
+		<if test="uavNo != null and uavNo != ''">#{uavNo},</if>
+		<if test="userId != null and userId != ''">#{userId},</if>
+		<if test="repairAddress != null and repairAddress != ''">#{repairAddress},</if>
+		<if test="phoneNumber != null and phoneNumber != ''">#{phoneNumber},</if>
+		<if test="repairNo != null and repairNo != ''">#{repairNo},</if>
+		sysdate()
+		)
+	</insert>
+
+	<select id="selectUavRepairList" parameterType="SysUavRepair" resultMap="SysUavRepairResult">
+		select r.repair_no,r.uav_no,r.user_id,r.feedback_id,r.repair_address,r.phone_number,r.repair_status,r.repair_feedback,r.create_date,r.feedback_date,
+			s1.nick_name as u_name,s2.nick_name as f_name from  t_uav_repair r
+			left join sys_user s1 on r.user_id = s1.user_id
+			left join sys_user s2 on r.feedback_id = s2.user_id
+		where 1 = 1
+		<if test="uavNo != null and uavNo != ''">
+			AND r.uav_no like concat('%', #{uavNo}, '%')
+		</if>
+		<if test="repairNo != null and repairNo != ''">
+			AND r.repair_no like concat('%', #{repairNo}, '%')
+		</if>
+		<if test="userId != null and userId != ''">
+			AND r.user_id = #{userId}
+		</if>
+		<if test="feedbackId != null and feedbackId != ''">
+			AND r.feedback_id = #{feedbackId}
+		</if>
+		<if test="repairStatus != null and repairStatus != ''">
+			AND r.repair_status = #{repairStatus}
+		</if>
+		<!--&lt;!&ndash; 数据范围过滤 &ndash;&gt;-->
+		${params.dataScope}
+	</select>
+
+</mapper> 

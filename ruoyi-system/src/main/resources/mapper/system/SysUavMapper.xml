@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysUavMapper">
+
+<!--	<sql id="selectUavTypeVo">
+		select uav_type_id, uav_type_name,uav_remark,img_path,create_date,update_date
+		from t_uav_type
+	</sql>-->
+	<sql id="selectUavVo">
+		select u.uav_type_id,u.online_status,u.uav_id,u.user_id, u.uav_no,u.uav_name,u.area_id,s.dept_name as area_name,
+			   u.net_status,u.chit_no,u.create_date,t.uav_type_name as uav_type_name,t.img_path as uav_type_img from t_uav u
+			 left join sys_dept s on u.area_id = s.dept_id
+			 left join t_uav_type t on u.uav_type_id = t.uav_type_id
+
+	</sql>
+
+	<resultMap type="SysUav" id="SysUavResult">
+		<id     property="uavId"       column="uav_id"      /><!--无人机ID-->
+		<result property="userId"     column="user_id"    /><!--所属用户ID-->
+		<result property="nickName"     column="nick_name"    /><!--所属用户ID-->
+		<result property="uavNo"       column="uav_no"      /><!--无人机序列号-->
+		<result property="uavName"       column="uav_Name"      /><!--无人机名称-->
+		<result property="areaId"     column="area_id"    /><!--无人机所属区域-->
+		<result property="areaName"     column="area_name"    /><!--无人机所属区域-->
+		<result property="netStatus"     column="net_status"    /><!--无人机入网状态-->
+		<result property="onlineStatus"     column="online_status"    /><!--无人机在线状态-->
+		<result property="deviceStatus"     column="device_status"    /><!--无设备状态-->
+		<result property="chitNo"     column="chit_no"    /><!--无人机保单号-->
+		<result property="uavType"     column="uav_type"    /><!--无人机类型名称-->
+		<result property="uavTypeId"     column="uav_type_id"    /><!--无人机类型ID-->
+		<result property="uavTypeId"     column="uav_type"    /><!--无人机类型名称-->
+		<result property="uavTypeImg"     column="uav_type_img"    /><!--无人机类型-->
+		<result property="createDate"     column="create_date"    /><!--无人机创建时间-->
+		<result property="allFly"     column="all_fly"    /><!--总飞行时间-->
+		<result property="lastFly"     column="last_fly"    /><!--距离上次维保飞行时间-->
+		<result property="allFlyLong"     column="all_fly_long"    /><!--总飞行里程-->
+		<result property="lastFlyLong"     column="last_fly_long"    /><!--距离上次维保飞行里程-->
+		<result property="lastTime"     column="last_time"    /><!--最后在线时间-->
+		<result property="flys"     column="flys"    /><!--飞行架次-->
+		<result property="repairs"     column="repairs"    /><!--维保架次-->
+	</resultMap>
+
+<!--	<select id="selectUavList" parameterType="SysUav" resultMap="SysUavResult">
+		select u.uav_id, u.uav_no,u.uav_name,u.area_id,s.dept_name as area_name,
+		     u.net_status,u.chit_no,u.create_date,t.uav_type_name as uav_type,t.img_path as uav_type_img from t_uav u
+		        left join sys_dept s on u.area_id = s.dept_id
+		        left join t_uav_type t on u.uav_type = t.uav_type_id
+		where 1 = 1
+		&lt;!&ndash;<if test="uavTypeName != null and uavTypeName != ''">
+			AND uav_type_name like concat('%', #{uavTypeName}, '%')
+		</if>
+		<if test="uavRemark != null and uavRemark != ''">
+			AND uav_remark like concat('%', #{uavRemark}, '%')
+		</if>&ndash;&gt;
+		<if test="areaId != null and areaId != 0">
+			AND (u.area_id = #{areaId} OR u.area_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{areaId}, ancestors) ))
+		</if>
+		&lt;!&ndash; 数据范围过滤 &ndash;&gt;
+		${params.dataScope}
+	</select>
+
+	<insert id="insertUavType" parameterType="SysUavType" useGeneratedKeys="false" keyProperty="id">
+		insert into t_uav_type(
+		<if test="uavTypeName != null and uavTypeName != ''">uav_type_name,</if>
+		<if test="uavRemark != null and uavRemark != ''">uav_remark,</if>
+		<if test="imgPath != null and imgPath != ''">img_path,</if>
+		create_date
+		)values(
+		<if test="uavTypeName != null and uavTypeName != ''">#{uavTypeName},</if>
+		<if test="uavRemark != null and uavRemark != ''">#{uavRemark},</if>
+		<if test="imgPath != null and imgPath != ''">#{imgPath},</if>
+		sysdate()
+		)
+	</insert>
+
+	<delete id="deleteUavTypeById" parameterType="Long">
+		delete from t_uav_type where uav_type_id = #{uavTypeId}
+	</delete>
+
+	<select id="selectUavTypeById" parameterType="Long" resultMap="SysUavTypeResult">
+		<include refid="selectUavTypeVo"/>
+		where uav_type_id = #{uavTypeId}
+	</select>
+
+	<update id="updateUavType" parameterType="SysUavType">
+		update t_uav_type
+		<set>
+			<if test="uavRemark != null and uavRemark != ''"> uav_remark = #{uavRemark},</if>
+			update_date = sysdate()
+		</set>
+		where uav_type_id = #{uavTypeId}
+	</update>-->
+	<delete id="deleteUavById" parameterType="Long">
+		delete from t_uav where uav_id = #{uavId}
+	</delete>
+
+	<select id="selectUavList" parameterType="SysUav" resultMap="SysUavResult">
+		select r.nick_name,u.all_fly,u.last_fly,u.all_fly_long,u.last_fly_long,u.last_time,
+		       u.flys,u.repairs,u.online_status,u.device_status, u.uav_id,u.user_id, u.uav_no,u.uav_name,u.area_id,s.dept_name as area_name,
+		u.net_status,u.chit_no,u.create_date,t.uav_type_name as uav_type_name,t.img_path as uav_type_img from t_uav u
+		left join sys_dept s on u.area_id = s.dept_id
+		left join t_uav_type t on u.uav_type_id = t.uav_type_id
+		left join sys_user r on u.user_id = r.user_id
+		where 1 = 1
+		<if test="uavTypeName != null and uavTypeName != ''">
+		AND u.uav_type_name like concat('%', #{uavTypeName}, '%')
+	</if>
+		<if test="chitNo != null and chitNo != ''">
+			AND u.chit_no like concat('%', #{chitNo}, '%')
+		</if>
+		<if test="uavTypeId != null and uavTypeId != ''">
+			AND u.uav_type_id = #{uavTypeId}
+		</if>
+		<if test="onlineStatus != null and onlineStatus != ''">
+			AND u.online_status = #{onlineStatus}
+		</if>
+		<if test="deviceStatus != null and deviceStatus != ''">
+			AND u.device_status = #{deviceStatus}
+		</if>
+		<if test="uavName != null and uavName != ''">
+			AND u.uav_name like concat('%', #{uavName}, '%')
+		</if>
+		<if test="userId != null and userId != ''">
+			AND u.user_id = #{userId}
+		</if>
+		<if test="areaId != null and areaId != 0">
+			AND (u.area_id = #{areaId} OR u.area_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{areaId}, ancestors) ))
+		</if>
+		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+			AND date_format(u.create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+		</if>
+		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+			AND date_format(u.create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+		</if>
+		<!--&lt;!&ndash; 数据范围过滤 &ndash;&gt;-->
+		${params.dataScope}
+	</select>
+
+	<insert id="insertUav" parameterType="SysUav" >
+		insert into t_uav(
+		<if test="userId != null and userId != ''">user_id,</if>
+		<if test="uavNo != null and uavNo != ''">uav_no,</if>
+		<if test="chitNo != null and chitNo != ''">chit_no,</if>
+		<if test="areaId != null and areaId != 0">area_id,</if>
+		<if test="uavTypeId != null and uavTypeId != 0">uav_type_id,</if>
+		<if test="createDate != null">create_date,</if>
+		<if test="netStatus != null and netStatus != 0">net_status,</if>
+		uav_name
+		)values(
+		<if test="userId != null and userId != ''">#{userId},</if>
+		<if test="uavNo != null and uavNo != ''">#{uavNo},</if>
+		<if test="chitNo != null and chitNo != ''">#{chitNo},</if>
+		<if test="areaId != null and areaId != 0">#{areaId},</if>
+		<if test="uavTypeId != null and uavTypeId != 0">#{uavTypeId},</if>
+		<if test="createDate != null">#{createDate},</if>
+		<if test="netStatus != null and netStatus != 0">#{netStatus},</if>
+		#{uavName}
+		)
+	</insert>
+
+	<select id="selectUavById" parameterType="Long" resultMap="SysUavResult">
+		<include refid="selectUavVo"/>
+		where uav_id = #{uavId}
+	</select>
+
+	<update id="updateUav" parameterType="SysUav">
+		update t_uav
+		<set>
+			<if test="areaId != null and areaId != ''"> area_id = #{areaId},</if>
+			<if test="userId != null and userId != ''"> user_id = #{userId},</if>
+			<if test="uavTypeId != null and uavTypeId != ''"> uav_type_id = #{uavTypeId},</if>
+			<if test="chitNo != null and chitNo != ''"> chit_no = #{chitNo},</if>
+			<if test="createDate != null"> create_date = #{createDate},</if>
+			<if test="netStatus != null and netStatus != ''"> net_status = #{netStatus},</if>
+			uav_name = #{uavName}
+		</set>
+		where uav_id = #{uavId}
+	</update>
+
+	<update id="updateUavDeviceStatus" parameterType="Long">
+		update t_uav
+		    set device_status = 3
+		where uav_id = #{uavId}
+	</update>
+
+
+
+	
+</mapper> 

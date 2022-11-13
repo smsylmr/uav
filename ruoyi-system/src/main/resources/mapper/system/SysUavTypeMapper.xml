@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysUavTypeMapper">
+
+	<sql id="selectUavTypeVo">
+		select uav_type_id, uav_type_name,uav_remark,img_path,create_date,update_date
+		from t_uav_type
+	</sql>
+
+	<resultMap type="SysUavType" id="SysUavTypeResult">
+		<id     property="uavTypeId"       column="uav_type_id"      />
+		<result property="uavTypeName"       column="uav_type_name"      />
+		<result property="uavRemark"     column="uav_remark"    />
+		<result property="imgPath"     column="img_path"    />
+		<result property="createDate"     column="create_date"    />
+		<result property="updateDate"     column="update_date"    />
+	</resultMap>
+
+	<select id="selectUavTypeList" parameterType="SysUavType" resultMap="SysUavTypeResult">
+		select uav_type_id, uav_type_name,uav_remark,img_path,create_date,update_date from t_uav_type
+		where 1 = 1
+		<if test="uavTypeName != null and uavTypeName != ''">
+			AND uav_type_name like concat('%', #{uavTypeName}, '%')
+		</if>
+		<if test="uavRemark != null and uavRemark != ''">
+			AND uav_remark like concat('%', #{uavRemark}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+
+	<insert id="insertUavType" parameterType="SysUavType" useGeneratedKeys="false" keyProperty="id">
+		insert into t_uav_type(
+		<if test="uavTypeName != null and uavTypeName != ''">uav_type_name,</if>
+		<if test="uavRemark != null and uavRemark != ''">uav_remark,</if>
+		<if test="imgPath != null and imgPath != ''">img_path,</if>
+		create_date
+		)values(
+		<if test="uavTypeName != null and uavTypeName != ''">#{uavTypeName},</if>
+		<if test="uavRemark != null and uavRemark != ''">#{uavRemark},</if>
+		<if test="imgPath != null and imgPath != ''">#{imgPath},</if>
+		sysdate()
+		)
+	</insert>
+
+	<delete id="deleteUavTypeById" parameterType="Long">
+		delete from t_uav_type where uav_type_id = #{uavTypeId}
+	</delete>
+
+	<select id="selectUavTypeById" parameterType="Long" resultMap="SysUavTypeResult">
+		<include refid="selectUavTypeVo"/>
+		where uav_type_id = #{uavTypeId}
+	</select>
+
+	<update id="updateUavType" parameterType="SysUavType">
+		update t_uav_type
+		<set>
+			<if test="uavRemark != null and uavRemark != ''"> uav_remark = #{uavRemark},</if>
+			update_date = sysdate()
+		</set>
+		where uav_type_id = #{uavTypeId}
+	</update>
+
+	
+</mapper> 

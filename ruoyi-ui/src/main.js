@@ -63,6 +63,14 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
 
+//百度地图
+import BaiduMap from 'vue-baidu-map'
+ 
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: 'No6sKlCDTq2NPY8kChivLHoyCpKGVCSL'
+})
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

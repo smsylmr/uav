@@ -30,9 +30,16 @@ public class DroneFlightData {
     */
     private String droneId;
     /**
-     * 本次飞行里程
+     * 本次飞行里程单位米
      */
     private String gps;
-
+    /**
+     * 本次飞行持续时间单位秒
+     */
+    private String flyTime;
+    /**
+     * 本次飞行开始时间
+     */
+    private LocalDateTime startTime;
 
 }

@@ -117,6 +117,11 @@ public class RuoYiConfig
         return getProfile() + "/avatar";
     }
 
+    public static String getUavTypePath()
+    {
+        return getProfile() + "/uavtype";
+    }
+
     /**
      * 获取下载路径
      */
